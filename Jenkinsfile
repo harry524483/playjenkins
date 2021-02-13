@@ -69,7 +69,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
           sh """
-            docker build -t harry1989/my-image:${gitCommit} .
+            docker build -t harry1989/new-image:${gitCommit} .
             docker push harry1989/new-image:${gitCommit}
           """
         }
