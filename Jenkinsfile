@@ -1,5 +1,4 @@
 podTemplate(
-  label:"comic-relief-ui-agent",
   containers: [
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')
   ],
