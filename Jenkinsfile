@@ -27,6 +27,16 @@ podTemplate(
       }
     }
 
+    stage('Print SCM envvars') {
+      sh """
+      echo ${myRepo}
+      echo ${gitCommit}
+      echo ${gitBranch}
+      echo ${shortGitCommit}
+      echo ${previousGitCommit}
+      """
+    }
+
     stage('Run kubectl') {
       container('kubectl') {
         sh "kubectl get pods"
