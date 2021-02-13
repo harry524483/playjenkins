@@ -1,3 +1,5 @@
+#!groovy
+
 podTemplate(
   containers: [
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
@@ -59,6 +61,17 @@ podTemplate(
             docker build -t harry1989/my-image:${gitCommit} .
             docker push harry1989/my-image:${gitCommit}
             """
+        }
+      }
+    }
+
+    stage('Connect to docker') {
+      container('docker') {
+        withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
+          sh """
+            docker build -t harry1989/my-image:${gitCommit} .
+            docker push harry1989/new-image:${gitCommit}
+          """
         }
       }
     }
