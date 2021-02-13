@@ -11,33 +11,25 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/justmeandopensource/playjenkins.git'
+        git 'https://github.com/harry524483/playjenkins.git'
       }
     }
 
     stage('Build image') {
       steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
+        sh 'echo "Build image"'
       }
     }
 
     stage('Push Image') {
       steps{
-        script {
-          docker.withRegistry( "" ) {
-            dockerImage.push()
-          }
-        }
+        sh 'echo "Push Image"'
       }
     }
 
     stage('Deploy App') {
       steps {
-        script {
-          kubernetesDeploy(configs: "myweb.yaml", kubeconfigId: "mykubeconfig")
-        }
+        sh 'echo "Deploy App"'
       }
     }
 
