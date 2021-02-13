@@ -11,7 +11,7 @@ podTemplate(
       git "https://github.com/harry524483/playjenkins.git"
       container('docker') {
         stage('Run docker commands') {
-          sh 'echo "Hello Docker'
+          sh 'echo "Hello Docker"'
           sh 'docker --version'
         }
       }
