@@ -28,10 +28,18 @@ podTemplate(
     }
 
     stage('Deploy') {
-      withCredentials([usernamePassword(credentialsId: 'github-access', 
-        passwordVariable: 'GIT_PASSWORD', 
-        usernameVariable: 'GIT_USERNAME')]){
-        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/harry524483/jenkins-helm-deployment.git"  
+      // withCredentials([usernamePassword(credentialsId: 'github-access', 
+      //   passwordVariable: 'GIT_PASSWORD', 
+      //   usernameVariable: 'GIT_USERNAME')]){
+      //   sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/harry524483/jenkins-helm-deployment.git"  
+      // }
+
+      dir('playjenkins') {
+        git url: 'git@github.com:harry524483/playjenkins.git'
+      }
+
+      dir('jenkins-helm-deployment') {
+        git url: 'git@github.com:harry524483/jenkins-helm-deployment.git'
       }
 
       container('helm') {
