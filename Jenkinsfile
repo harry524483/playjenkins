@@ -28,6 +28,9 @@ podTemplate(
     }
 
     stage('Deploy') {
+      git credentialsId: 'github-access',
+        url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+
       container('helm') {
         sh "pwd"
         sh "ls"
