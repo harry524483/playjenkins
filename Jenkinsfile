@@ -1,5 +1,7 @@
 #!groovy
 
+def GIT_USERNAME = harry524483
+
 podTemplate(
   containers: [
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
@@ -28,7 +30,12 @@ podTemplate(
     }
 
     stage('Deploy') {
-      git "https://github.com/harry524483/jenkins-helm-deployment.git"
+      withCredentials([usernamePassword(credentialsId: 'github-access', 
+        passwordVariable: 'GIT_PASSWORD', 
+        usernameVariable: 'GIT_USERNAME')]){
+        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/harry524483/jenkins-helm-deployment.git"  
+      }
+
       container('helm') {
         sh "pwd"
         sh "ls"
