@@ -18,7 +18,8 @@ podTemplate(
 
     stage('Build') {
 
-      git "https://github.com/harry524483/playjenkins.git"
+      git credentialsId: 'github-access',
+        url: "https://github.com/harry524483/playjenkins.git"
 
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
@@ -33,7 +34,7 @@ podTemplate(
     }
 
     stage('Deploy') {
-      
+
        git credentialsId: 'github-access',
           url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
       
