@@ -1,7 +1,5 @@
 #!groovy
 
-def GIT_USERNAME = harry524483
-
 podTemplate(
   containers: [
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
