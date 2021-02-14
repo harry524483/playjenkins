@@ -33,17 +33,11 @@ podTemplate(
 
       container('helm') {
         sh '''
-        #!/bin/bash
 
-        cd /..
         pwd
         ls
-
+        
         helm upgrade --install --force --set web.tag=${shortGitCommit} jenkins-web .
-
-        cd ../..
-        pwd
-        ls
         '''
       }
     }    
