@@ -17,14 +17,14 @@ podTemplate(
     // def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
     
-    git credentialsId: 'github-access',
-        url: "https://github.com/harry524483/playjenkins.git"
+    
     
 
-    git credentialsId: 'github-access', branch: 'main',
-        url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+    
 
     stage('Build') {
+      git credentialsId: 'github-access',
+        url: "https://github.com/harry524483/playjenkins.git"
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
           sh """
@@ -38,6 +38,9 @@ podTemplate(
     }
 
     stage('Deploy') {
+      git credentialsId: 'github-access', branch: 'main',
+        url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+        
       container('helm') {
         sh '''
         #!/bin/bash
