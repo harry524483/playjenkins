@@ -22,7 +22,7 @@ podTemplate(
     }
 
     dir("second-repo") {
-      git credentialsId: 'github-access',
+      git credentialsId: 'github-access', branch: 'main',
         url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
     }
 
