@@ -16,15 +16,13 @@ podTemplate(
     // def shortGitCommit = "${gitCommit[0..10]}"
     // def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-    dir('first-repo') {
-      git credentialsId: 'github-access',
+    
+    git credentialsId: 'github-access',
         url: "https://github.com/harry524483/playjenkins.git"
-    }
+    
 
-    dir("second-repo") {
-      git credentialsId: 'github-access', branch: 'main',
+    git credentialsId: 'github-access', branch: 'main',
         url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
-    }
 
     stage('Build') {
       container('docker') {
