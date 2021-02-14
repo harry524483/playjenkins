@@ -32,6 +32,10 @@ podTemplate(
         url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
 
       container('helm') {
+        sh "cd .."
+        sh "pwd"
+        sh "ls"
+        sh "cd ../.."
         sh "pwd"
         sh "ls"
         sh "helm upgrade --install --force --set web.tag=${shortGitCommit} jenkins-web ." 
