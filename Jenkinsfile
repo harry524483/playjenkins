@@ -10,11 +10,6 @@ podTemplate(
   ]
 ) {
   node(POD_LABEL) {
-
-    def RELEASE_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
-
-    sh "echo ${RELEASE_TAG}"
-
     dir("playjenkins") {
       git credentialsId: 'github-access',
         url: "https://github.com/harry524483/playjenkins.git"
@@ -26,6 +21,10 @@ podTemplate(
     }
     
     stage('Build') {
+      def RELEASE_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
+
+      sh "echo ${RELEASE_TAG}"
+      
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
           sh '''
