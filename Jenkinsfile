@@ -31,6 +31,7 @@ podTemplate(
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
           sh """
+            ls
             cd ./first-repo
             ls
             docker build -t harry1989/jenkins-web:latest .
