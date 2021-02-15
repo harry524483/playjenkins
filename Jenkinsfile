@@ -16,42 +16,34 @@ podTemplate(
     // def shortGitCommit = "${gitCommit[0..10]}"
     // def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-    dir("first-repo") {
+    dir("playjenkins") {
       git credentialsId: 'github-access',
         url: "https://github.com/harry524483/playjenkins.git"
     }
 
-    dir("second-repo") {
+    dir("jenkins-helm-deployment") {
       git credentialsId: 'github-access', branch: 'main',
         url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
     }
     
     stage('Build') {
-      
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
-          sh """
-            ls
-            cd ./first-repo
-            ls
+          sh '''
+            cd playjenkins
             docker build -t harry1989/jenkins-web:latest .
             docker push harry1989/jenkins-web:latest
-          """
+          '''
         }
       }
     }
 
     stage('Deploy') {
-
       container('helm') {
         sh '''
-        #!/bin/bash
-
-        cd /home/jenkins/agent/workspace/playjenkins_master/second-repo
         ls
-
+        cd jenkins-helm-deployment
         helm upgrade --install --force --set web.tag=latest jenkins-web .
-
         '''
       }
     }    
