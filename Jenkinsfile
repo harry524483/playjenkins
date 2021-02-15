@@ -4,6 +4,7 @@ pipeline {
     VERSION = "${BUILD_NUMBER}"
     REGISTRY = 'harry1989/jenkins-web'
     REGISTRY_CREDENTIAL = 'dockerhub'
+    GITHUB_CREDENTIAL = 'github-access'
   }
 
   agent {
@@ -14,12 +15,27 @@ pipeline {
   }
 
   stages {
+    stage("Clone repos") {
+      dir("playjenkins") {
+        git credentialsId: "${GITHUB_CREDENTIAL}",
+          url: "https://github.com/harry524483/playjenkins.git"
+      }
+
+      dir("jenkins-helm-deployment") {
+        git credentialsId: "${GITHUB_CREDENTIAL}", branch: 'main',
+          url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+      }
+    }
+
     stage('Docker Build') {
       when {
         environment name: 'DEPLOY', value: 'true'
       }
       steps {
         container('docker') {
+          sh "ls"
+          sh "cd playjenkins"
+          sh "ls"
           sh "docker build -t ${REGISTRY}:${VERSION} ."
         }
       }
@@ -44,7 +60,10 @@ pipeline {
       }
       steps {
         container('helm') {
-          sh "helm ls"
+          sh "ls"
+          sh "cd jenkins-helm-deployment"
+          sh "ls"
+          sh "helm upgrade --install --set web.tag=${VERSION} jenkins-web ."
         }
       }
     }
