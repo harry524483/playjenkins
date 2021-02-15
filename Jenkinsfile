@@ -1,5 +1,7 @@
 #!groovy
 
+def RELEASE_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
+
 podTemplate(
   containers: [
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
@@ -21,16 +23,12 @@ podTemplate(
     }
     
     stage('Build') {
-      def RELEASE_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
-
-      sh "echo ${RELEASE_TAG}"
-      
       container('docker') {
         withDockerRegistry([credentialsId: 'dockerhub', url: ""]){
           sh '''
             cd playjenkins
-            docker build -t harry1989/jenkins-web:latest .
-            docker push harry1989/jenkins-web:latest
+            docker build -t harry1989/jenkins-web:${RELEASE_TAG} .
+            docker push harry1989/jenkins-web:${RELEASE_TAG}
           '''
         }
       }
@@ -41,7 +39,7 @@ podTemplate(
         sh '''
         ls
         cd jenkins-helm-deployment
-        helm upgrade --install --set web.tag=latest jenkins-web .
+        helm upgrade --install --set web.tag=${RELEASE_TAG} jenkins-web .
         '''
       }
     }    
