@@ -37,7 +37,7 @@ podTemplate(
         sh '''
         ls
         cd jenkins-helm-deployment
-        helm upgrade --install --force --set web.tag=latest jenkins-web .
+        helm upgrade --install --set web.tag=latest jenkins-web .
         '''
       }
     }    
