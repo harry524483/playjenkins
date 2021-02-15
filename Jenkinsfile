@@ -15,15 +15,17 @@ pipeline {
   }
 
   stages {
-    stage("Clone repos") {
-      dir("playjenkins") {
-        git credentialsId: "${GITHUB_CREDENTIAL}",
-          url: "https://github.com/harry524483/playjenkins.git"
-      }
+    stage("Checkout repos") {
+      steps {
+        dir("playjenkins") {
+          git credentialsId: "${GITHUB_CREDENTIAL}",
+            url: "https://github.com/harry524483/playjenkins.git"
+        }
 
-      dir("jenkins-helm-deployment") {
-        git credentialsId: "${GITHUB_CREDENTIAL}", branch: 'main',
-          url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+        dir("jenkins-helm-deployment") {
+          git credentialsId: "${GITHUB_CREDENTIAL}", branch: 'main',
+            url: 'https://github.com/harry524483/jenkins-helm-deployment.git'
+        }
       }
     }
 
