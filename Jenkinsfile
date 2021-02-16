@@ -35,10 +35,12 @@ pipeline {
       }
       steps {
         container('docker') {
-          sh "ls"
-          sh "cd playjenkins"
-          sh "ls"
-          sh "docker build -t ${REGISTRY}:${VERSION} ."
+          sh '''
+            ls
+            cd playjenkins
+            ls
+            docker build -t ${REGISTRY}:${VERSION} .
+          '''
         }
       }
     }
@@ -62,10 +64,12 @@ pipeline {
       }
       steps {
         container('helm') {
-          sh "ls"
-          sh "cd jenkins-helm-deployment"
-          sh "ls"
-          sh "helm upgrade --install --set web.tag=${VERSION} jenkins-web ."
+          sh '''
+            ls
+            cd jenkins-helm-deployment
+            ls
+            helm upgrade --install --set web.tag=${VERSION} jenkins-web .
+          '''
         }
       }
     }
